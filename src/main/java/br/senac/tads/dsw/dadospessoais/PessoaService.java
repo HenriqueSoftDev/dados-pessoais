@@ -24,7 +24,7 @@ public class PessoaService {
     }
 
     public PessoaDto findByUsername(String username){
-        return null;
+        return mapPessoas.get(username);
     }
 
     public PessoaDto addNew(PessoaDto dto){
