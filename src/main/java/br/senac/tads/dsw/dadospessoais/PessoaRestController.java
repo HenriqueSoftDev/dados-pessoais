@@ -1,12 +1,10 @@
 package br.senac.tads.dsw.dadospessoais;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController //Caso utilize a anotação @Controller, precisaria complementar as classes com o @ResponseBody
 public class PessoaRestController {
@@ -29,5 +27,17 @@ public class PessoaRestController {
     @GetMapping("/{username}")
     public PessoaDto findbyUsername(@PathVariable("username") String username){
         return  service.findByUsername(username);
+    }
+
+    @GetMapping("/headers")
+    public Map<String, Object> findHttpHeader(
+        @RequestHeader Map<String, Object> cabecalhos){
+        return  cabecalhos;
+    }
+
+    @GetMapping("/headers/user-agent")
+    public String findUserAgent(
+        @RequestHeader("user-agent") String userAgent){
+        return userAgent;
     }
 }
