@@ -1,7 +1,9 @@
 package br.senac.tads.dsw.dadospessoais;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Map;
@@ -26,9 +28,14 @@ public class PessoaRestController {
     //Passando os valores dos parametros por meio de variaveis
     @GetMapping("/{username}")
     public PessoaDto findbyUsername(@PathVariable("username") String username){
-        return  service.findByUsername(username);
+        PessoaDto pessoa = service.findByUsername(username);
+        if (pessoa == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        return pessoa;
     }
 
+    //HeaderController
     @GetMapping("/headers")
     public Map<String, Object> findHttpHeader(
         @RequestHeader Map<String, Object> cabecalhos){
