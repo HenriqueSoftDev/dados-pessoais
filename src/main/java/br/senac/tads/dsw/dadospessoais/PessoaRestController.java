@@ -2,6 +2,7 @@ package br.senac.tads.dsw.dadospessoais;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -30,21 +31,18 @@ public class PessoaRestController {
     public PessoaDto findbyUsername(@PathVariable("username") String username){
         PessoaDto pessoa = service.findByUsername(username);
         if (pessoa == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Pessoa %s não encontrada".formatted(username));
         }
         return pessoa;
     }
 
-    //HeaderController
-    @GetMapping("/headers")
-    public Map<String, Object> findHttpHeader(
-        @RequestHeader Map<String, Object> cabecalhos){
-        return  cabecalhos;
-    }
+    @PostMapping
+    public ResponseEntity<PessoaDto> addNew(@RequestBody PessoaDto input){
+        PessoaDto pessoa = service.addNew(input);
 
-    @GetMapping("/headers/user-agent")
-    public String findUserAgent(
-        @RequestHeader("user-agent") String userAgent){
-        return userAgent;
+        //TODO: CRIAR URI
+        return ResponseEntity.created(null).build();
+
     }
 }
