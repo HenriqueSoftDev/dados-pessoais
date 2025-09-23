@@ -1,12 +1,13 @@
+
 package br.senac.tads.dsw.dadospessoais;
+
+import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
-
-import java.time.LocalDate;
-import java.util.List;
 
 public class PessoaDto {
 
@@ -29,19 +30,27 @@ public class PessoaDto {
     @Size(min = 0, max = 20)
     private String telefone;
 
-    private List<String> interesses;
+    @Size(min = 1)
+    private List<@NotBlank String> interesses;
+
     private String senha;
 
-    public PessoaDto(){}
+    private String repeticaoSenha;
 
-    public PessoaDto(String username, String nome, String email, LocalDate dataNascimento, String telefone, List<String> interesses, String senha) {
+
+    public PessoaDto() {
+    }
+
+    public PessoaDto(String username, String nome, LocalDate dataNascimento,
+                     String email, String telefone, List<String> interesses, String senha) {
         this.username = username;
         this.nome = nome;
-        this.email = email;
         this.dataNascimento = dataNascimento;
+        this.email = email;
         this.telefone = telefone;
         this.interesses = interesses;
         this.senha = senha;
+        this.repeticaoSenha = getRepeticaoSenha();
     }
 
     public String getUsername() {
@@ -60,20 +69,20 @@ public class PessoaDto {
         this.nome = nome;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getTelefone() {
@@ -98,5 +107,13 @@ public class PessoaDto {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public String getRepeticaoSenha() {
+        return repeticaoSenha;
+    }
+
+    public void setRepeticaoSenha(String repeticaoSenha) {
+        this.repeticaoSenha = repeticaoSenha;
     }
 }
